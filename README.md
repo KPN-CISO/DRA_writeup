@@ -39,7 +39,7 @@ Oracle took the reported vulnerabilities seriously, and the KPN REDteam worked c
 The found issues pose a serious threat to telecom operators that use Oracle's DSR and could be exploited by any attacker with access to an IPX connection.
  
 ### Test approach
-The KPN REDteam tests products and services before they are deployed in production networks. As part of an upgrade project, the Oracle DSR version 5.0 was tested from a security perspective by the KPN REDteam. The security test included fuzzing of the Oracle DSR DIAMETER implementation by using the *Codenomicon Diameter Server test Suite*. The Capabilities Exchange Request (CER) message, which is used to check the DIAMETER capabilities of the receiving server, was used as initial fuzzing target. This message was chosen because it isn't forwarded to other systems such as the HSS, but is handled by the DSR itself. While fuzzing, several crashes of the "dsr" process were noticed on the Message Processor (MP) blades of the DSR.
+The KPN REDteam tests products and services before they are deployed in production networks. As part of an upgrade project, the Oracle DSR version 5.0 was tested from a security perspective by the KPN REDteam. The security test included fuzzing of the Oracle DSR DIAMETER implementation by using the [Codenomicon Diameter Server test Suite]. The Capabilities Exchange Request (CER) message, which is used to check the DIAMETER capabilities of the receiving server, was used as initial fuzzing target. This message was chosen because it isn't forwarded to other systems such as the HSS, but is handled by the DSR itself. While fuzzing, several crashes of the "dsr" process were noticed on the Message Processor (MP) blades of the DSR.
 
 ### Technical details
 Using GDB with the [PEDA] plug-in the crash was analyzed, and eventually a remote exploit was written. The crash was caused by an out of bounds write beyond the end of buffer located on the stack. The out of bounds write corrupted the stack with user controlled data. Also the saved return pointer, which is the address to where the program returns after returning from a function, was overwritten. When this return pointer can be controlled by the attacker, it can lead to arbitrary code execution.
@@ -254,6 +254,7 @@ The [PEDA] plug-in for GDB makes life a lot easier, and will help to find your R
 [HSS]:http://en.wikipedia.org/wiki/IP_Multimedia_Subsystem#HSS_.E2.80.93_Home_Subscriber_Server
 [MME]:http://en.wikipedia.org/wiki/System_Architecture_Evolution#MME_.28Mobility_Management_Entity.29_protocols
 [Codenomicon]:http://www.codenomicon.com/products/defensics/
+[Codenomicon Diameter Server test Suite]:http://www.codenomicon.com/products/defensics/datasheets/diameter-server.html
 [shell-storm.org]:http://shell-storm.org/blog/Return-Oriented-Programming-and-ROPgadget-tool/
 [PEDA]:https://github.com/longld/peda
 [CVE-2014-0101]:https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-0101
