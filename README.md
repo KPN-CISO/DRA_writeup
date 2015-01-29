@@ -10,7 +10,7 @@ KPN operates the largest mobile network in the Netherlands. One of the component
 The picture below shows a typical DRA deployment in a LTE environment.
 All interfaces between the elements are S6a interfaces.
 
-![alt text](https://raw.githubusercontent.com/KPN-CISO/DRA-writeup/master/LTE_roaming.PNG "LTE roaming setup")
+![alt text](https://raw.githubusercontent.com/KPN-CISO/DRA_writeup/master/LTE_roaming.PNG "LTE roaming setup")
 
 - [PLMN] = public land mobile network
 - [IPX] = IP eXchange 
@@ -44,7 +44,7 @@ The KPN REDteam tests products and services before they are deployed in producti
 ### Technical details
 Using GDB with the [PEDA] plug-in the crash was analyzed, and eventually a remote exploit was written. The crash was caused by an out of bounds write beyond the end of buffer located on the stack. The out of bounds write corrupted the stack with user controlled data. Also the saved return pointer, which is the address to where the program returns after returning from a function, was overwritten. When this return pointer can be controlled by the attacker, it can lead to arbitrary code execution.
 
-![alt text](https://raw.githubusercontent.com/KPN-CISO/DRA-writeup/master/Crash.png "Crash in GDB")
+![alt text](https://raw.githubusercontent.com/KPN-CISO/DRA_writeup/master/Crash.png "Crash in GDB")
 
 The main reason for writing this blog is to explain how the KPN REDteam managed to get past the ASLR and NX protections in place, and managed to create a working remote code execution exploit. Normally ASLR and NX protection mechanisms are not a big obstacle for attackers, but the DSR is running on 64bit CentOS. There is not much practical documentation about Return Oriented Programming (ROP) on 64bit ASLR protected Linux systems.
 
